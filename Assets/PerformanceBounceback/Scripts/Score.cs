@@ -4,22 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Score : MonoBehaviour {
-
-    public GameManager gameManager;
     public string scoreLabel = "Score: ";
+    private Text scoreText;
 
-    private int displayedScore = -1;
+    private void Awake() {
+        GameManager.OnScoreUpdated += UpdateScoreText;
+    }
 
-	// Use this for initialization
-	void Start () {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if(displayedScore != gameManager.score) {
-            Text text = GetComponentInChildren<Text>();
-            text.text = "Score: " + gameManager.score.ToString();
-        }		
-	}
+    // Use this for initialization
+    void Start() {
+        scoreText = GetComponentInChildren<Text>();
+    }
+
+    // Update is called once per frame
+    public void UpdateScoreText(object sender, ScoreUpdatedArgs args) {
+        scoreText.text = "Score: " + args.Score.ToString();
+    }
 }

@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class Trampoline : MonoBehaviour {
 
     public ParticleSystem pSystem;
     public GameManager scoreScript;
+
+    public static event EventHandler<EventArgs> OnBallHitTrampoline = delegate { };
 
 	// Use this for initialization
 	void Start () {
@@ -18,7 +19,7 @@ public class Trampoline : MonoBehaviour {
         if (col.gameObject.CompareTag("Throwable"))
         {
             //Score Point
-            scoreScript.score++;
+            OnBallHitTrampoline(this, null);
             //Particle effect
             pSystem.Play();
         }
